@@ -202,3 +202,8 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Quasar detection evaluation laboratory - generated baseline artefacts
+dist/
+release/
+lab/**/__pycache__/

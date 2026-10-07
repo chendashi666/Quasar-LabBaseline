@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>QuasarLabToolkit</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Platforms>AnyCPU</Platforms>
+    <StartupObject>Quasar.LabToolkit.Program</StartupObject>
+    <ApplicationIcon>..\lab\LabBaseline.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>..\Quasar.Server\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <!-- Laboratory baseline metadata. Values are centralized in ..\Directory.Build.props
+       and mirrored literally in Properties\AssemblyInfo.cs. -->
+  <PropertyGroup>
+    <AssemblyTitle>Quasar Lab Baseline Toolkit</AssemblyTitle>
+    <Product>$(LabProductName)</Product>
+    <Company>$(LabCompany)</Company>
+    <Copyright>$(LabCopyright)</Copyright>
+    <Description>Laboratory baseline sample - standalone packaging and build toolkit</Description>
+    <Version>$(LabVersion)</Version>
+    <AssemblyVersion>$(LabVersion)</AssemblyVersion>
+    <FileVersion>$(LabVersion)</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>none</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <!-- Shared sources: the standalone toolkit reuses the exact build engine of the control
+       console instead of forking it, so both produce byte identical clients. -->
+  <ItemGroup>
+    <Compile Include="..\Quasar.Server\Build\ClientBuilder.cs" Link="Build\ClientBuilder.cs" />
+    <Compile Include="..\Quasar.Server\Build\Renamer.cs" Link="Build\Renamer.cs" />
+    <Compile Include="..\Quasar.Server\Build\LabCertificate.cs" Link="Build\LabCertificate.cs" />
+    <Compile Include="..\Quasar.Server\Build\LabConfigFactory.cs" Link="Build\LabConfigFactory.cs" />
+    <Compile Include="..\Quasar.Server\Build\LabBuildCli.cs" Link="Build\LabBuildCli.cs" />
+    <Compile Include="..\Quasar.Server\Models\BuildOptions.cs" Link="Models\BuildOptions.cs" />
+    <Compile Include="..\Quasar.Server\Models\Settings.cs" Link="Models\Settings.cs" />
+    <Compile Include="..\Quasar.Server\Helper\CertificateHelper.cs" Link="Helper\CertificateHelper.cs" />
+    <Compile Include="..\Quasar.Server\Forms\FrmLabPackager.cs" Link="Forms\FrmLabPackager.cs" />
+    <Compile Include="..\Quasar.Server\Forms\FrmLabPackager.Designer.cs" Link="Forms\FrmLabPackager.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quasar.Common\Quasar.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ILRepack.Lib.MSBuild.Task">
+      <Version>2.0.18.2</Version>
+    </PackageReference>
+    <PackageReference Include="Mono.Cecil">
+      <Version>0.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="Vestris.ResourceLib">
+      <Version>2.1.0</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

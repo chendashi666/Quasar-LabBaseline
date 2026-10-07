@@ -14,20 +14,20 @@ using System.Runtime.InteropServices;
 // 禁止盗卖，禁止商业用途。 Upstream Quasar metadata (MIT) is preserved below.
 // Keep in sync with Directory.Build.props (LabProductName / LabCompany / ...).
 // ---------------------------------------------------------------------------
-[assembly: AssemblyTitle("Quasar Lab Baseline Common")]
-[assembly: AssemblyDescription("Laboratory baseline sample - shared protocol, DNS and helpers")]
+[assembly: AssemblyTitle("Quasar Lab Baseline Toolkit")]
+[assembly: AssemblyDescription("Laboratory baseline sample - standalone packaging and build toolkit")]
 [assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("陈森 (Chen Sen)")]
 [assembly: AssemblyProduct("Quasar Detection Baseline")]
 [assembly: AssemblyCopyright("Copyright (c) 陈森 (Chen Sen) - 禁止盗卖 / 禁止商业用途 | Upstream Quasar (c) MaxXor (MIT)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("Quasar.Common.Tests")]
+
 
 [assembly: ComVisible(false)]
 
 // Regenerated for the laboratory baseline so the identity is stable across rebuilds.
-[assembly: Guid("b5f31883-7f2e-4caa-9ad1-75e0192e41fa")]
+[assembly: Guid("3ca8c645-ae1e-457d-b011-2565d63ef886")]
 
 [assembly: AssemblyVersion("1.4.1.0")]
 [assembly: AssemblyFileVersion("1.4.1.0")]

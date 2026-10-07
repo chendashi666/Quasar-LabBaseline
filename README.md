@@ -1,5 +1,14 @@
 # Quasar
 
+> ### 作者：陈森（Chen Sen）· <https://github.com/chendashi666>
+> **本项目所有实验室工程改造与新增代码均为陈森创作。禁止盗卖。禁止商业用途。**
+> 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有，遵循 MIT License，其署名与许可证必须原样保留。
+> 详见 **[NOTICE.md](NOTICE.md)** 与 **[LICENSE.LAB.md](LICENSE.LAB.md)**。
+>
+> **本仓库是「Quasar 检测评估实验台」的分支。** 在上游 Quasar 之上增加了运行参数外置、
+> 元数据标准化、依赖合并、资源规范化、本地自签名与一键构建/出包流水线，用于自建隔离靶场中的
+> 终端检测能力评估。环境要求、快速开始与出包说明见 **[README.LAB.md](README.LAB.md)**。
+
 [![Build status](https://ci.appveyor.com/api/projects/status/5857hfy6r1ltb5f2?svg=true)](https://ci.appveyor.com/project/MaxXor/quasar)
 [![Downloads](https://img.shields.io/github/downloads/quasar/Quasar/total.svg)](https://github.com/quasar/Quasar/releases)
 [![License](https://img.shields.io/github/license/quasar/Quasar.svg)](LICENSE)

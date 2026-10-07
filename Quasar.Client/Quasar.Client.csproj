@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <OutputType>WinExe</OutputType>
@@ -6,6 +6,19 @@
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
+  <!-- Laboratory baseline metadata. Values are centralized in ..\Directory.Build.props
+       and mirrored literally in Properties\AssemblyInfo.cs. -->
+  <PropertyGroup>
+    <AssemblyTitle>Quasar Lab Baseline Client</AssemblyTitle>
+    <Product>$(LabProductName)</Product>
+    <Company>$(LabCompany)</Company>
+    <Copyright>$(LabCopyright)</Copyright>
+    <Description>Laboratory baseline sample - Quasar client, functionality complete</Description>
+    <Version>$(LabVersion)</Version>
+    <AssemblyVersion>$(LabVersion)</AssemblyVersion>
+    <FileVersion>$(LabVersion)</FileVersion>
+    <ApplicationIcon>..\lab\LabBaseline.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\bin\Debug\</OutputPath>

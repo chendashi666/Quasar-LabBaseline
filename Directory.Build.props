@@ -1,0 +1,34 @@
+<Project>
+
+  <!--
+    Quasar Detection Evaluation Laboratory - baseline sample build definition.
+    Author of the laboratory engineering: 陈森 (Chen Sen) - https://github.com/chendashi666
+    禁止盗卖，禁止商业用途。 / Resale and commercial use prohibited.
+    Upstream Quasar (c) MaxXor and contributors, MIT License - attribution preserved.
+
+    Single source of truth for the standardized assembly metadata of every project.
+    Keep the literal values in the AssemblyInfo.cs files of the projects in sync with these
+    properties; build_release.ps1 asserts that consistency after every build.
+  -->
+  <PropertyGroup>
+    <LabBaseline>true</LabBaseline>
+    <LabName>QUASAR-LAB-BASELINE</LabName>
+    <LabProductName>Quasar Detection Baseline</LabProductName>
+    <LabAuthor>陈森 (Chen Sen) - https://github.com/chendashi666</LabAuthor>
+    <LabCompany>陈森 (Chen Sen)</LabCompany>
+    <LabCopyright>Copyright (c) 陈森 (Chen Sen) - 禁止盗卖 / 禁止商业用途 | Upstream Quasar (c) MaxXor (MIT)</LabCopyright>
+    <LabDescription>Laboratory baseline sample for endpoint detection coverage measurement</LabDescription>
+    <LabVersion>1.4.1.0</LabVersion>
+
+    <Version>$(LabVersion)</Version>
+    <AssemblyVersion>$(LabVersion)</AssemblyVersion>
+    <FileVersion>$(LabVersion)</FileVersion>
+    <Product>$(LabProductName)</Product>
+    <Company>$(LabCompany)</Company>
+    <Copyright>$(LabCopyright)</Copyright>
+    <Description>$(LabDescription)</Description>
+
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>

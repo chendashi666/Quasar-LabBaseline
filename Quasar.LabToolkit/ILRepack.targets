@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Author of the laboratory engineering: 陈森 (Chen Sen) - https://github.com/chendashi666
+     禁止盗卖，禁止商业用途。 Upstream Quasar (c) MaxXor and contributors, MIT License. -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    Quasar Detection Evaluation Laboratory - standalone toolkit dependency consolidation.
+
+    The toolkit ships as one single executable so it can be delivered on its own: the CIL build
+    engine (Mono.Cecil), the certificate engine (BouncyCastle), the resource rewriter
+    (Vestris.ResourceLib) and the shared library are merged into the main program.
+  -->
+  <Target Name="ILRepacker" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
+
+    <ItemGroup>
+      <InputAssemblies Include="$(TargetPath)"/>
+      <InputAssemblies Include="$(TargetDir)Mono.Cecil.dll"/>
+      <InputAssemblies Include="$(TargetDir)BouncyCastle.Crypto.dll"/>
+      <InputAssemblies Include="$(TargetDir)protobuf-net.dll"/>
+      <InputAssemblies Include="$(TargetDir)Quasar.Common.dll"/>
+      <InputAssemblies Include="$(TargetDir)Vestris.ResourceLib.dll"/>
+    </ItemGroup>
+
+    <ILRepack
+      Parallel="true"
+      Internalize="true"
+      AllowDuplicateResources="false"
+      DebugInfo="false"
+      InputAssemblies="@(InputAssemblies)"
+      TargetKind="SameAsPrimaryAssembly"
+      OutputFile="$(TargetPath)"/>
+
+    <Error Condition="!Exists('$(TargetPath)')"
+           Text="Laboratory toolkit: the merged toolkit was not produced at $(TargetPath)." />
+  </Target>
+</Project>

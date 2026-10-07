@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFramework>net452</TargetFramework>
     <OutputType>WinExe</OutputType>
@@ -10,7 +10,19 @@
     <StartupObject>Quasar.Server.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\Icons\Quasar_Server.ico</ApplicationIcon>
+    <ApplicationIcon>..\lab\LabBaseline.ico</ApplicationIcon>
+  </PropertyGroup>
+  <!-- Laboratory baseline metadata. Values are centralized in ..\Directory.Build.props
+       and mirrored literally in Properties\AssemblyInfo.cs. -->
+  <PropertyGroup>
+    <AssemblyTitle>Quasar Lab Baseline Console</AssemblyTitle>
+    <Product>$(LabProductName)</Product>
+    <Company>$(LabCompany)</Company>
+    <Copyright>$(LabCopyright)</Copyright>
+    <Description>Laboratory baseline sample - Quasar control console</Description>
+    <Version>$(LabVersion)</Version>
+    <AssemblyVersion>$(LabVersion)</AssemblyVersion>
+    <FileVersion>$(LabVersion)</FileVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -78,6 +90,12 @@
     </Compile>
     <Compile Update="Forms\FrmBuilder.Designer.cs">
       <DependentUpon>FrmBuilder.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\FrmLabPackager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FrmLabPackager.Designer.cs">
+      <DependentUpon>FrmLabPackager.cs</DependentUpon>
     </Compile>
     <Compile Update="Forms\FrmConnections.cs">
       <SubType>Form</SubType>

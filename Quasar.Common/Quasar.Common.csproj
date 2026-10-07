@@ -1,8 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net452</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <!-- Laboratory baseline metadata. Values are centralized in ..\Directory.Build.props
+       and mirrored literally in Properties\AssemblyInfo.cs. -->
+  <PropertyGroup>
+    <AssemblyTitle>Quasar Lab Baseline Common</AssemblyTitle>
+    <Product>$(LabProductName)</Product>
+    <Company>$(LabCompany)</Company>
+    <Copyright>$(LabCopyright)</Copyright>
+    <Description>Laboratory baseline sample - shared protocol, DNS and helpers</Description>
+    <Version>$(LabVersion)</Version>
+    <AssemblyVersion>$(LabVersion)</AssemblyVersion>
+    <FileVersion>$(LabVersion)</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\bin\Debug\</OutputPath>
@@ -16,6 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>

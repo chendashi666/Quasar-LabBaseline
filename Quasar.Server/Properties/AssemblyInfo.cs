@@ -1,34 +1,33 @@
-﻿using System.Reflection;
+// ---------------------------------------------------------------------------
+// Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
+// 作者：陈森（Chen Sen）  https://github.com/chendashi666
+// 本文件由陈森创作或改造：禁止盗卖，禁止商业用途。
+// 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
+// ---------------------------------------------------------------------------
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// Allgemeine Informationen über eine Assembly werden über die folgenden 
-// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
-// die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("Quasar Server")]
-[assembly: AssemblyDescription("Remote Administration Tool")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Quasar")]
-[assembly: AssemblyCopyright("Copyright © MaxXor 2023")]
+// ---------------------------------------------------------------------------
+// Laboratory baseline sample metadata.
+// Author of the laboratory modifications: 陈森 (Chen Sen) - https://github.com/chendashi666
+// 禁止盗卖，禁止商业用途。 Upstream Quasar metadata (MIT) is preserved below.
+// Keep in sync with Directory.Build.props (LabProductName / LabCompany / ...).
+// ---------------------------------------------------------------------------
+[assembly: AssemblyTitle("Quasar Lab Baseline Console")]
+[assembly: AssemblyDescription("Laboratory baseline sample - Quasar control console")]
+[assembly: AssemblyConfiguration("Release")]
+[assembly: AssemblyCompany("陈森 (Chen Sen)")]
+[assembly: AssemblyProduct("Quasar Detection Baseline")]
+[assembly: AssemblyCopyright("Copyright (c) 陈森 (Chen Sen) - 禁止盗卖 / 禁止商业用途 | Upstream Quasar (c) MaxXor (MIT)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("Server.Tests")]
 
-// Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
-// für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
-// COM zugreifen müssen, legen Sie das ComVisible-Attribut für diesen Typ auf "true" fest.
 [assembly: ComVisible(false)]
 
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
-//      Hauptversion
-//      Nebenversion 
-//      Buildnummer
-//      Revision
-//
-// Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
-// übernehmen, indem Sie "*" eingeben:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.4.1")]
-[assembly: AssemblyFileVersion("1.4.1")]
+// Regenerated for the laboratory baseline so the identity is stable across rebuilds.
+[assembly: Guid("9bd416b6-eb6e-464c-ba8e-0dba0ce877d2")]
+
+[assembly: AssemblyVersion("1.4.1.0")]
+[assembly: AssemblyFileVersion("1.4.1.0")]

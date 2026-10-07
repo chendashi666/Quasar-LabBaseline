@@ -1,26 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Author of the laboratory engineering: 陈森 (Chen Sen) - https://github.com/chendashi666
+     禁止盗卖，禁止商业用途。 Upstream Quasar (c) MaxXor and contributors, MIT License. -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    Quasar Detection Evaluation Laboratory - dependency consolidation.
+
+    The laboratory baseline ships one single executable: every non framework dependency of the
+    client is merged into the main program so the distribution layout is identical on every
+    experiment machine and no external dependency difference can leak into the measurement.
+
+    ILRepack.Lib.MSBuild.Task imports this file automatically and disables its own auto merge
+    target as soon as the file exists, so the target below is the single authoritative merge step.
+
+    WARNING: the list must contain every client side dependency which is not part of the
+    .NET Framework. A missing entry silently changes the shipped baseline.
+  -->
   <Target Name="ILRepacker" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release'">
 
-  <ItemGroup>
-    <InputAssemblies Include="$(TargetPath)"/>
-    <InputAssemblies Include="$(TargetDir)protobuf-net.dll"/>
-    <InputAssemblies Include="$(TargetDir)Gma.System.MouseKeyHook.dll"/>
-    <InputAssemblies Include="$(TargetDir)Quasar.Common.dll"/>
-    <InputAssemblies Include="$(TargetDir)BouncyCastle.Crypto.dll"/>
-  </ItemGroup>
+    <ItemGroup>
+      <InputAssemblies Include="$(TargetPath)"/>
+      <InputAssemblies Include="$(TargetDir)protobuf-net.dll"/>
+      <InputAssemblies Include="$(TargetDir)Gma.System.MouseKeyHook.dll"/>
+      <InputAssemblies Include="$(TargetDir)Quasar.Common.dll"/>
+      <InputAssemblies Include="$(TargetDir)BouncyCastle.Crypto.dll"/>
+    </ItemGroup>
 
-  <ILRepack
-    Parallel="true"
-    Internalize="true"
-    InputAssemblies="@(InputAssemblies)"
-    TargetKind="SameAsPrimaryAssembly"
-    OutputFile="$(TargetPath)"/>
+    <ILRepack
+      Parallel="true"
+      Internalize="true"
+      AllowDuplicateResources="false"
+      DebugInfo="false"
+      InputAssemblies="@(InputAssemblies)"
+      TargetKind="SameAsPrimaryAssembly"
+      OutputFile="$(TargetPath)"/>
+
+    <Error Condition="!Exists('$(TargetPath)')"
+           Text="Laboratory baseline: the merged client was not produced at $(TargetPath)." />
   </Target>
-  <Target Name="CopyWindows" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Windows_NT' ">
+
+  <!-- The control console generates custom clients from client.bin, so it must always be current. -->
+  <Target Name="CopyClientBinWindows" AfterTargets="ILRepacker" Condition="'$(OS)' == 'Windows_NT'">
     <Exec Command='copy "$(TargetPath)" "$(TargetDir)client.bin" /Y' />
+    <Error Condition="!Exists('$(TargetDir)client.bin')"
+           Text="Laboratory baseline: client.bin was not produced next to the merged client." />
   </Target>
-  <Target Name="CopyUnix" AfterTargets="PostBuildEvent" Condition="'$(OS)' != 'Windows_NT' ">
+  <Target Name="CopyClientBinUnix" AfterTargets="ILRepacker" Condition="'$(OS)' != 'Windows_NT'">
     <Exec Command='cp "$(TargetPath)" "$(TargetDir)client.bin"' />
+    <Error Condition="!Exists('$(TargetDir)client.bin')"
+           Text="Laboratory baseline: client.bin was not produced next to the merged client." />
   </Target>
 </Project>
