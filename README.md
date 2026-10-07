@@ -1,7 +1,7 @@
 # Quasar
 
-> ### 作者：陈森（Chen Sen）· <https://github.com/chendashi666>
-> **本项目所有实验室工程改造与新增代码均为陈森创作。禁止盗卖。禁止商业用途。**
+> ### 作者：陈森于（Chen Senyu）· <https://github.com/chendashi666>
+> **本项目所有实验室工程改造与新增代码均为陈森于创作。禁止盗卖。禁止商业用途。**
 > 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有，遵循 MIT License，其署名与许可证必须原样保留。
 > 详见 **[NOTICE.md](NOTICE.md)** 与 **[LICENSE.LAB.md](LICENSE.LAB.md)**。
 >
