@@ -1,8 +1,8 @@
 # 实验室工程部分许可协议（Laboratory Engineering License）
 
-版权所有 (c) 2026 **陈森（Chen Sen）** — <https://github.com/chendashi666>
+版权所有 (c) 2026 **陈森于（Chen Senyu）** — <https://github.com/chendashi666>
 
-本协议适用于 `NOTICE.md` 中列明的、由陈森创作的实验室工程改造与新增代码
+本协议适用于 `NOTICE.md` 中列明的、由陈森于创作的实验室工程改造与新增代码
 （以下简称「本作品」）。上游 Quasar 代码不适用本协议，仍遵循 MIT License。
 
 ## 许可

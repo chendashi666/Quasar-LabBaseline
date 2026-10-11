@@ -1,7 +1,7 @@
 ﻿# ---------------------------------------------------------------------------
 # Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
-# 作者：陈森（Chen Sen）  https://github.com/chendashi666
-# 本文件由陈森创作：禁止盗卖，禁止商业用途。
+# 作者：陈森于（Chen Senyu）  https://github.com/chendashi666
+# 本文件由陈森于创作：禁止盗卖，禁止商业用途。
 # 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
 # ---------------------------------------------------------------------------
 
@@ -152,7 +152,7 @@ if ($IncludePrebuilt -or $IncludePrebuiltConsole) {
     $info.Add('  prebuilt/ControlConsole/  full control console, use --lab-packager for the packaging UI')
     $info.Add('  prebuilt/LabToolkit/      standalone single file toolkit + client.bin, no build required')
 }
-$info.Add('author         : Chen Sen - https://github.com/chendashi666')
+$info.Add('author         : Chen Senyu - https://github.com/chendashi666')
 $info.Add('license        : laboratory engineering - no resale, no commercial use')
 $info.Add('documentation  : README.LAB.md, lab/README.md, VERIFICATION_REPORT.md')
 $info.Add('')

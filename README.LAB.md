@@ -1,7 +1,7 @@
 # Quasar 检测评估实验台 · 实验室基线样本
 
-> ### 作者：陈森（Chen Sen）· <https://github.com/chendashi666>
-> **本项目所有实验室工程改造与新增代码均为陈森创作。禁止盗卖。禁止商业用途。**
+> ### 作者：陈森于（Chen Senyu）· <https://github.com/chendashi666>
+> **本项目所有实验室工程改造与新增代码均为陈森于创作。禁止盗卖。禁止商业用途。**
 > 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有，遵循 MIT License，其署名与许可证必须原样保留。
 > 详见 **[NOTICE.md](NOTICE.md)** 与 **[LICENSE.LAB.md](LICENSE.LAB.md)**。
 
@@ -232,7 +232,7 @@ Copy-Item .\LabToolkit\quasar.p12 .\ControlConsole\quasar.p12 -Force
 本项目是上游 Quasar 的衍生工程。上游代码遵循其 **MIT License**（见 `LICENSE`，版权归 **MaxXor 及 Quasar 贡献者**所有），
 其署名与许可条款必须原样保留。第三方组件许可见 `Licenses/`。
 
-本分支新增的**实验室工程代码**（范围详见 [NOTICE.md](NOTICE.md)）由 **陈森（Chen Sen）** 创作，
+本分支新增的**实验室工程代码**（范围详见 [NOTICE.md](NOTICE.md)）由 **陈森于（Chen Senyu）** 创作，
 遵循 [LICENSE.LAB.md](LICENSE.LAB.md)：**禁止盗卖，禁止商业用途**，分发须保留完整署名，商业使用需事先取得作者书面授权。
 
 作者：<https://github.com/chendashi666>

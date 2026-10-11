@@ -1,7 +1,7 @@
 ﻿# ---------------------------------------------------------------------------
 # Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
-# 作者：陈森（Chen Sen）  https://github.com/chendashi666
-# 本文件由陈森创作：禁止盗卖，禁止商业用途。
+# 作者：陈森于（Chen Senyu）  https://github.com/chendashi666
+# 本文件由陈森于创作：禁止盗卖，禁止商业用途。
 # 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
 # ---------------------------------------------------------------------------
 
@@ -165,9 +165,9 @@ function Assert-Metadata {
     $info = (Get-Item -LiteralPath $Path).VersionInfo
     $problems = @()
     if ($info.ProductName -ne 'Quasar Detection Baseline') { $problems += ('ProductName=' + $info.ProductName) }
-    if ($info.CompanyName -notlike '*Chen Sen*') { $problems += ('CompanyName=' + $info.CompanyName) }
+    if ($info.CompanyName -notlike '*Chen Senyu*') { $problems += ('CompanyName=' + $info.CompanyName) }
     if ($info.FileVersion -ne '1.4.1.0') { $problems += ('FileVersion=' + $info.FileVersion) }
-    if ($info.LegalCopyright -notlike '*Chen Sen*') { $problems += ('LegalCopyright=' + $info.LegalCopyright) }
+    if ($info.LegalCopyright -notlike '*Chen Senyu*') { $problems += ('LegalCopyright=' + $info.LegalCopyright) }
     if ($info.LegalCopyright -notlike '*MaxXor*') { $problems += ('LegalCopyright(missing upstream attribution)=' + $info.LegalCopyright) }
     if (-not $info.FileDescription.StartsWith($ExpectedDescriptionPrefix)) { $problems += ('FileDescription=' + $info.FileDescription) }
 
@@ -329,7 +329,7 @@ $manifestPath = Join-Path $BaselineDir 'MANIFEST.txt'
 $manifest = New-Object System.Collections.Generic.List[string]
 $manifest.Add('Quasar Detection Evaluation Laboratory - baseline sample manifest')
 $manifest.Add('label              : laboratory baseline sample')
-$manifest.Add('author             : Chen Sen - https://github.com/chendashi666')
+$manifest.Add('author             : Chen Senyu - https://github.com/chendashi666')
 $manifest.Add('license            : laboratory engineering - no resale, no commercial use')
 $manifest.Add('upstream           : Quasar (c) MaxXor and contributors, MIT License')
 $manifest.Add('purpose            : endpoint detection coverage measurement (isolated testbed only)')

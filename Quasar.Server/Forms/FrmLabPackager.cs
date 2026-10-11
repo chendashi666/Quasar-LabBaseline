@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------------------
 // Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
-// 作者：陈森（Chen Sen）  https://github.com/chendashi666
-// 本文件由陈森创作或改造：禁止盗卖，禁止商业用途。
+// 作者：陈森于（Chen Senyu）  https://github.com/chendashi666
+// 本文件由陈森于创作或改造：禁止盗卖，禁止商业用途。
 // 上游 Quasar 代码版权归 MaxXor 及 Quasar 贡献者所有（MIT License）。
 // ---------------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ namespace Quasar.Server.Forms
             txtOutputDir.Text = DefaultOutputDirectory();
             txtMutex.Text = Guid.NewGuid().ToString();
 
-            AppendLog("作者：陈森（Chen Sen） - https://github.com/chendashi666");
+            AppendLog("作者：陈森于（Chen Senyu） - https://github.com/chendashi666");
             AppendLog("禁止盗卖，禁止商业用途 | 上游 Quasar (c) MaxXor (MIT)");
             AppendLog(LabStrings.LabName + " " + LabStrings.ProductName);
             AppendLog("客户端模板 : " + ClientBinaryPath());

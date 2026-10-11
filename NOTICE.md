@@ -2,7 +2,7 @@
 
 ## 作者
 
-**本项目（Quasar 检测评估实验台 · Quasar-LabBaseline）的实验室工程改造与新增代码，全部由 陈森（Chen Sen）独立创作完成。**
+**本项目（Quasar 检测评估实验台 · Quasar-LabBaseline）的实验室工程改造与新增代码，全部由 陈森于（Chen Senyu）独立创作完成。**
 
 - GitHub：<https://github.com/chendashi666>
 - 仓库：<https://github.com/chendashi666/Quasar-LabBaseline>
@@ -18,7 +18,7 @@
   （`FrmLabPackager`、`LabBuildCli`、`LabConfigFactory`、`LabCertificate`）
 - 验证方案与验收矩阵 `VERIFICATION_REPORT.md`
 
-## 使用限制（针对陈森创作的实验室工程部分）
+## 使用限制（针对陈森于创作的实验室工程部分）
 
 > ### 禁止盗卖。禁止任何形式的商业用途。
 
@@ -37,5 +37,5 @@
 
 ## 一句话
 
-实验室工程 = **陈森（Chen Sen）** 创作，**禁止盗卖、禁止商业用途**；
+实验室工程 = **陈森于（Chen Senyu）** 创作，**禁止盗卖、禁止商业用途**；
 上游 Quasar = MIT，署名归 MaxXor。
