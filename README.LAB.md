@@ -176,16 +176,54 @@ Quasar.exe --help-lab
 安装 Windows SDK，或给 `build_release.ps1` 加 `-SkipSign`。
 
 **被控端不上线**
-按顺序查：① 被控端目标端口是否等于控制端实际监听端口（Quasar 默认 4782，界面里点 Listen 才监听）；
-② 被控端能否 ping 通目标地址；③ 控制端入站防火墙是否放行；
-④ 控制端的 `quasar.p12` 是否与出包时同一份（重新生成证书会让旧样本全部失联）；
-⑤ 被控端 `netstat` 状态：一直 `SYN_SENT` 是网络不通，通了一下就断是 TLS 校验失败。
+
+先在被控端看进程和连接状态，两类问题一眼分开：
+
+| `netstat -ano | findstr <端口>` 的结果 | 结论 |
+| --- | --- |
+| 一直 `SYN_SENT` | 网络层不通 → IP 填错 / 防火墙拦了 / 虚拟机是 NAT 模式（NAT 下不能用宿主机局域网 IP 回连，要用 VMnet 网关地址，如 `192.168.x.1`；Host-Only 用 `192.168.56.1`；桥接才能用局域网 IP） |
+| `ESTABLISHED` 一两秒后消失、反复重连 | TCP 通了，**TLS 校验被拒 → 证书不一致**（见下） |
+| 没有 `LabBaseline` 进程 | 样本没跑起来，检查 exe 与 `config.json` 是否同目录 |
+
+另外确认控制端真的在监听（Quasar 默认 **4782**，必须在界面点 Listen；`AutoListen` 默认关闭）：
+
+```powershell
+netstat -ano | findstr :4782
+# 期望 0.0.0.0:4782 LISTENING；若为 127.0.0.1:4782 则只绑了回环
+```
+
+**证书不一致的判定与修复**
+
+三条命令，指纹必须完全一致：
+
+```powershell
+# 样本期望的证书指纹（config.json 里的 encryptionKey 就是 CA 指纹）
+(Get-Content .\LabBaseline\config.json -Raw | ConvertFrom-Json).encryptionKey
+# 控制端实际在用的
+(New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(".\ControlConsole\quasar.p12","")).Thumbprint
+# 出包工具生成的那份
+(New-Object System.Security.Cryptography.X509Certificates.X509Certificate2(".\LabToolkit\quasar.p12","")).Thumbprint
+```
+
+不一致时，让控制端改用样本绑定的那一份：
+
+```powershell
+Copy-Item .\LabToolkit\quasar.p12 .\ControlConsole\quasar.p12 -Force
+```
+
+> 出包工具与控制端**自动共用同一套 CA**：在同级的 `ControlConsole` / `LabToolkit` 目录里找不到证书时，
+> 会先采纳已有的那一份；新建时也会同步一份到同级目录。正常流程不会出现不一致，
+> 只有在手工替换过证书、或两个目录被分开拷贝时才需要手工同步。
 
 **`Get-AuthenticodeSignature` 显示 `UnknownError`**
 自签名根未导入。在靶机执行 `lab\tools\trust_lab_certificate.ps1` 后即为 `Valid`。
 
 ## 11. 上游与许可
 
-本项目是上游 Quasar 的分支，遵循其 **MIT License**（见 `LICENSE`，版权归 MaxXor 所有）。
-第三方组件许可见 `Licenses/`。
-本分支新增的实验室工程代码同样以 MIT 许可发布。
+本项目是上游 Quasar 的衍生工程。上游代码遵循其 **MIT License**（见 `LICENSE`，版权归 **MaxXor 及 Quasar 贡献者**所有），
+其署名与许可条款必须原样保留。第三方组件许可见 `Licenses/`。
+
+本分支新增的**实验室工程代码**（范围详见 [NOTICE.md](NOTICE.md)）由 **陈森（Chen Sen）** 创作，
+遵循 [LICENSE.LAB.md](LICENSE.LAB.md)：**禁止盗卖，禁止商业用途**，分发须保留完整署名，商业使用需事先取得作者书面授权。
+
+作者：<https://github.com/chendashi666>
