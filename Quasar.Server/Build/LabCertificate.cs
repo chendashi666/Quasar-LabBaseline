@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Quasar 检测评估实验台 · 实验室基线样本（Quasar-LabBaseline）
 // 作者：陈森（Chen Sen）  https://github.com/chendashi666
 // 本文件由陈森创作或改造：禁止盗卖，禁止商业用途。
@@ -56,7 +56,7 @@ namespace Quasar.Server.Build
 
             var payload = certificate.Export(X509ContentType.Pkcs12);
             WriteAllBytes(path, payload);
-            PropagateToSiblings(path, payload);
+            PropagateToSiblingFolders(path, payload);
             created = true;
             return certificate;
         }
@@ -127,7 +127,12 @@ namespace Quasar.Server.Build
             File.WriteAllBytes(path, payload);
         }
 
-        private static void PropagateToSiblings(string path, byte[] payload)
+        /// <summary>
+        /// Gives every existing sibling laboratory tool folder the same authority file so the
+        /// packaging toolkit and the control console can never drift apart. Existing authority
+        /// files are never overwritten.
+        /// </summary>
+        public static void PropagateToSiblingFolders(string path, byte[] payload)
         {
             foreach (var target in GetSiblingPaths(path))
             {

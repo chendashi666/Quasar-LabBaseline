@@ -78,6 +78,7 @@ prebuilt\LabToolkit\client.bin             客户端模板，必须与 exe 同�
 .\QuasarLabToolkit.exe --help-lab
 .\QuasarLabToolkit.exe --build-client --out .\LabBaseline\LabBaseline.exe --hosts "<控制端内网IP>:4782;" --tag "COND-A" --subnet "<内网网段>"
 .\QuasarLabToolkit.exe --write-config --out .\LabBaseline --hosts "<控制端内网IP>:4782;"
+.\QuasarLabToolkit.exe --sync-ca --to .\ControlConsole
 .\QuasarLabToolkit.exe --make-cert
 ~~~
 
@@ -150,6 +151,7 @@ AGENTS.md                      AI 协作约定（可选，不参与构建）
 Quasar.exe --make-cert   [--out <p12>] [--name <CN>] [--key 4096]
 Quasar.exe --build-client --out <exe> --hosts "<ip:port;>" [--tag --mutex --subnet --icon ...]
 Quasar.exe --write-config --out <dir> --hosts "<ip:port;>" [--tag --mutex --subnet]
+Quasar.exe --sync-ca --to <dir>
 Quasar.exe --help-lab
 ~~~
 
@@ -211,9 +213,16 @@ netstat -ano | findstr :4782
 Copy-Item .\LabToolkit\quasar.p12 .\ControlConsole\quasar.p12 -Force
 ```
 
-> 出包工具与控制端**自动共用同一套 CA**：在同级的 `ControlConsole` / `LabToolkit` 目录里找不到证书时，
-> 会先采纳已有的那一份；新建时也会同步一份到同级目录。正常流程不会出现不一致，
-> 只有在手工替换过证书、或两个目录被分开拷贝时才需要手工同步。
+> **出包工具与控制端自动共用同一套 CA**，四条路径都已覆盖：
+>
+> | 你的操作 | 自动行为 |
+> | --- | --- |
+> | 出包工具先跑 | 新建 CA 后同步一份到同级 `ControlConsole` |
+> | 控制端先跑 | 控制端启动时先采纳同级工具目录已有的 CA，不弹证书窗、不自建第二份 |
+> | 用 `--make-cert` 轮换 CA | 新 CA 自动同步到同级目录 |
+> | 两个目录被分开拷贝 | 手工执行一次 `--sync-ca --to <控制端目录>` |
+>
+> 因此正常出包流程不会再出现证书不一致。
 
 **`Get-AuthenticodeSignature` 显示 `UnknownError`**
 自签名根未导入。在靶机执行 `lab\tools\trust_lab_certificate.ps1` 后即为 `Valid`。

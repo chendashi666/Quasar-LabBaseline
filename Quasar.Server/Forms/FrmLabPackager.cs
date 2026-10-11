@@ -214,11 +214,14 @@ namespace Quasar.Server.Forms
                 // First run on a machine without a laboratory authority: create it on the spot.
                 bool certificateCreated;
                 var laboratoryCertificate = LabCertificate.EnsureAtDefaultPath(out certificateCreated);
+
+                // Always show which authority is in use: a control console running a different
+                // certificate silently rejects every produced baseline sample.
+                AppendLog("实验台 CA  : " + Quasar.Server.Models.Settings.CertificatePath);
+                AppendLog("CA 指纹    : " + laboratoryCertificate.Thumbprint);
                 if (certificateCreated)
-                {
-                    AppendLog("已自动生成实验台 CA: " + Quasar.Server.Models.Settings.CertificatePath);
-                    AppendLog("CA 指纹: " + laboratoryCertificate.Thumbprint);
-                }
+                    AppendLog("已新建实验台 CA，并同步到同级工具目录（ControlConsole / LabToolkit）");
+                AppendLog("控制端必须使用同一份 quasar.p12；目录被分开拷贝时运行 --sync-ca --to <控制端目录> 同步。");
 
                 var outputPath = Path.Combine(request.OutputDirectory, request.FileName);
 

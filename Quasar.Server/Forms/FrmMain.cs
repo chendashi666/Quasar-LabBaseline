@@ -1,5 +1,6 @@
-﻿using Quasar.Common.Enums;
+using Quasar.Common.Enums;
 using Quasar.Common.Messages;
+using Quasar.Server.Build;
 using Quasar.Server.Extensions;
 using Quasar.Server.Messages;
 using Quasar.Server.Models;
@@ -84,6 +85,13 @@ namespace Quasar.Server.Forms
 #if DEBUG
             serverCertificate = new DummyCertificate();
 #else
+            // Laboratory baseline: adopt an existing laboratory authority from a sibling tool
+            // folder (for example the standalone packaging toolkit) instead of letting the
+            // operator create a second one, which would silently reject every baseline sample
+            // that was already produced.
+            string adoptedAuthoritySource;
+            LabCertificate.TryAdoptAtDefaultPath(out adoptedAuthoritySource);
+
             if (!File.Exists(Settings.CertificatePath))
             {
                 using (var certificateSelection = new FrmCertificate())
